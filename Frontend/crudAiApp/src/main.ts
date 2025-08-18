@@ -1,12 +1,15 @@
 import './style.css'
 
+console.log("Main.ts wird geladen!");
 
-fetch('http://localhost:8000')
-.then(response => response.json())
-.then(data => {
-  document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-    <div>
-      <h1>${data.message}</h1>
-    </div>
-  `
-})
+document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+  <div>
+    <h1>Test</h1>
+    <button id="test-btn">Click me</button>
+  </div>
+`
+
+document.getElementById('test-btn')?.addEventListener('click', () => {
+  console.log("Button clicked!");
+  alert("Es funktioniert!");
+});
