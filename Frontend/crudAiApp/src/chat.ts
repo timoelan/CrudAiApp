@@ -1,6 +1,4 @@
-import './style.css'
-
-console.log("Main.ts wird geladen!");
+import './style.css';
 
 interface Chat {
   id: number;
@@ -12,37 +10,44 @@ const chats: Chat[] = [
   { id: 2, title: "Projektbesprechung" },
 ];
 
- const container = document.createElement("div");
-container.className = "max-w-md mx-auto mt-10 p-4 bg-white shadow rounded-lg";
+// Sidebar erstellen
+const sidebar = document.createElement("div");
+sidebar.className = "sidebar";
+document.body.appendChild(sidebar);
 
- const title = document.createElement("h1");
-title.className = "text-2xl font-bold mb-4";
-title.textContent = "Chats";
-container.appendChild(title);
+// Toggle Button
+const toggleButton = document.createElement("button");
+toggleButton.className = "toggle-button";
+toggleButton.textContent = "☰";
+document.body.appendChild(toggleButton);
 
- const button = document.createElement("button");
-button.className = "w-full mb-4 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition";
-button.textContent = "+ Neuer Chat";
-container.appendChild(button);
+// Button für neuen Chat
+const newChatButton = document.createElement("button");
+newChatButton.className = "new-chat-button";
+newChatButton.textContent = "+ Neuer Chat";
+sidebar.appendChild(newChatButton);
 
- const ul = document.createElement("ul");
-ul.className = "space-y-2";
-container.appendChild(ul);
+// Liste
+const ul = document.createElement("ul");
+ul.className = "chat-list";
+sidebar.appendChild(ul);
 
- function renderChats() {
+// Render-Funktion
+function renderChats() {
   ul.innerHTML = "";
   chats.forEach(chat => {
     const li = document.createElement("li");
     const a = document.createElement("a");
     a.href = "#";
     a.textContent = chat.title;
-    a.className = "block p-3 bg-gray-100 rounded hover:bg-gray-200 transition";
+    a.className = "chat-item";
     li.appendChild(a);
     ul.appendChild(li);
   });
 }
 
- button.addEventListener("click", () => {
+// Button Events
+newChatButton.addEventListener("click", () => {
   const newChat: Chat = {
     id: chats.length + 1,
     title: `Neuer Chat ${chats.length + 1}`
@@ -51,22 +56,12 @@ container.appendChild(ul);
   renderChats();
 });
 
- renderChats();
-const app = document.querySelector('#app');
-if (app) {
-    app.appendChild(container);
-}
-
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <h1>Test</h1>
-    <button id="test-btn">Click me</button>
-  </div>
-`
-
-document.getElementById('test-btn')?.addEventListener('click', () => {
-  console.log("Button clicked!");
-  alert("Es funktioniert!");
+// Sidebar Toggle
+toggleButton.addEventListener("click", () => {
+  sidebar.classList.toggle("collapsed");
 });
 
-console.log("Chat geladen!");
+renderChats();
+
+const app = document.querySelector('#app');
+if (app) app.appendChild(sidebar);

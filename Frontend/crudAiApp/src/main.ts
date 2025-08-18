@@ -3,9 +3,9 @@ import './style.css'
 console.log("Main.ts wird geladen!");
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <h1>Test</h1>
-    <button id="test-btn">Click me</button>
+  <div class="container">
+    <h1 class="title">Test</h1>
+    <button id="test-btn" class="new-chat-button">Click me</button>
   </div>
 `
 
