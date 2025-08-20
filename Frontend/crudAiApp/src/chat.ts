@@ -1,67 +1,61 @@
 import './style.css';
+import type { Chat } from './sidebar.ts';
 
-interface Chat {
-  id: number;
-  title: string;
+let activeChat: Chat | null = null;
+
+// Chat Window erstellen
+const chatWindow = document.createElement("div");
+chatWindow.className = "chat-window";
+const appContainer = document.getElementById('app')!;
+appContainer.appendChild(chatWindow);
+
+// Header
+const chatHeader = document.createElement("div");
+chatHeader.className = "chat-header";
+chatWindow.appendChild(chatHeader);
+
+const chatTitle = document.createElement("h2");
+chatTitle.textContent = "Wähle einen Chat";
+chatHeader.appendChild(chatTitle);
+
+// Nachrichten Container
+const messagesContainer = document.createElement("div");
+messagesContainer.className = "messages-container";
+chatWindow.appendChild(messagesContainer);
+
+// Input-Bereich
+const chatInputContainer = document.createElement("div");
+chatInputContainer.className = "chat-input-container";
+
+const chatInput = document.createElement("input");
+chatInput.type = "text";
+chatInput.placeholder = "Nachricht eingeben...";
+chatInput.className = "chat-input";
+
+const sendButton = document.createElement("button");
+sendButton.textContent = "➤";
+sendButton.className = "send-button";
+
+chatInputContainer.appendChild(chatInput);
+chatInputContainer.appendChild(sendButton);
+chatWindow.appendChild(chatInputContainer);
+
+// Export functions
+export function setActiveChat(chat: Chat) {
+  activeChat = chat;
+  chatTitle.textContent = chat.title;
+  messagesContainer.innerHTML = ""; // später: Nachrichten laden
 }
 
-const chats: Chat[] = [
-  { id: 1, title: "Chat mit Timo" },
-  { id: 2, title: "Projektbesprechung" },
-];
+// Send message event
+sendButton.addEventListener("click", () => {
+  if (!activeChat || !chatInput.value.trim()) return;
 
-// Sidebar erstellen
-const sidebar = document.createElement("div");
-sidebar.className = "sidebar";
-document.body.appendChild(sidebar);
+  const msg = document.createElement("div");
+  msg.className = "message message-outgoing";
+  msg.textContent = chatInput.value;
+  messagesContainer.appendChild(msg);
 
-// Toggle Button
-const toggleButton = document.createElement("button");
-toggleButton.className = "toggle-button";
-toggleButton.textContent = "☰";
-document.body.appendChild(toggleButton);
-
-// Button für neuen Chat
-const newChatButton = document.createElement("button");
-newChatButton.className = "new-chat-button";
-newChatButton.textContent = "+ Neuer Chat";
-sidebar.appendChild(newChatButton);
-
-// Liste
-const ul = document.createElement("ul");
-ul.className = "chat-list";
-sidebar.appendChild(ul);
-
-// Render-Funktion
-function renderChats() {
-  ul.innerHTML = "";
-  chats.forEach(chat => {
-    const li = document.createElement("li");
-    const a = document.createElement("a");
-    a.href = "#";
-    a.textContent = chat.title;
-    a.className = "chat-item";
-    li.appendChild(a);
-    ul.appendChild(li);
-  });
-}
-
-// Button Events
-newChatButton.addEventListener("click", () => {
-  const newChat: Chat = {
-    id: chats.length + 1,
-    title: `Neuer Chat ${chats.length + 1}`
-  };
-  chats.unshift(newChat);
-  renderChats();
+  chatInput.value = "";
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
 });
-
-// Sidebar Toggle
-toggleButton.addEventListener("click", () => {
-  sidebar.classList.toggle("collapsed");
-});
-
-renderChats();
-
-const app = document.querySelector('#app');
-if (app) app.appendChild(sidebar);

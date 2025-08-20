@@ -1,15 +1,8 @@
-import './style.css'
+import './style.css';
 
-console.log("Main.ts wird geladen!");
+// App-Container erstellen
+const appElement = document.getElementById('app')!;
+appElement.className = 'app-container';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div class="container">
-    <h1 class="title">Test</h1>
-    <button id="test-btn" class="new-chat-button">Click me</button>
-  </div>
-`
-
-document.getElementById('test-btn')?.addEventListener('click', () => {
-  console.log("Button clicked!");
-  alert("Es funktioniert!");
-});
+import './sidebar.ts';
+import './chat.ts';
