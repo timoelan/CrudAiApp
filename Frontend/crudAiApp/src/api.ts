@@ -4,7 +4,7 @@ interface Chat {
   title: string;
 }
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = 'http://localhost:8001';
 
 export async function loadChats(): Promise<Chat[]> {
   try {
