@@ -47,7 +47,7 @@ class OllamaService:
             payload = {
                 "model": self.model,
                 "messages": messages,
-                "stream": False  # Get complete response at once
+                "stream": False
             }
             
             # Call Ollama API
