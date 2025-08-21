@@ -35,6 +35,12 @@ newChatButton.className = "new-chat-button";
 newChatButton.textContent = "+ Neuer Chat";
 sidebar.appendChild(newChatButton);
 
+// Create home/welcome button
+const homeButton = document.createElement("button");
+homeButton.className = "home-button";
+homeButton.textContent = "🏠 Startseite";
+sidebar.appendChild(homeButton);
+
 // Create chat list container
 const ul = document.createElement("ul");
 ul.className = "chat-list";
@@ -56,6 +62,12 @@ newChatButton.addEventListener("click", async () => {
     chats.unshift(newChat);
     renderChats();
   }
+});
+
+// Home button - return to welcome screen
+homeButton.addEventListener("click", () => {
+  // Trigger welcome screen
+  window.dispatchEvent(new CustomEvent('showWelcome'));
 });
 
 // ===============================================================================
@@ -158,3 +170,17 @@ export type { Chat };
 
 // Initialize sidebar by loading existing chats
 loadAndRenderChats();
+
+// ===============================================================================
+// CUSTOM EVENT LISTENERS
+// ===============================================================================
+// Listen for chat creation events from the main chat window
+window.addEventListener('chatCreated', (event: Event) => {
+  const customEvent = event as CustomEvent;
+  const newChat = customEvent.detail;
+  chats.unshift(newChat);  // Add to beginning of list
+  renderChats();
+  
+  // Auto-select the new chat
+  setActiveChat(newChat);
+});

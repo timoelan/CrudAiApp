@@ -40,10 +40,90 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #fff;
+  position: relative; /* Für absolute Positionierung des Welcome-Inputs */
 }
 
+.chat-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #ddd;
+  background-color: #fafafa;
+  text-align: center;
+}
 
+.chat-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
 
+/* Welcome Screen Styles */
+.chat-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}
+
+.welcome-subtitle {
+  margin: 8px 0 0 0;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  font-weight: normal;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 140px); /* Account for header and input */
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.welcome-icon {
+  font-size: 100px;
+  margin-bottom: 40px;
+  opacity: 0.8;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.welcome-message h3 {
+  margin: 0 0 20px 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #333;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.welcome-message p {
+  margin: 0;
+  font-size: 18px;
+  color: #666;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+.messages-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 /* Toggle Button */
 .toggle-button {
@@ -70,7 +150,7 @@ body {
 .new-chat-button {
   width: 100%;
   padding: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background: linear-gradient(135deg, #28a745, #218838);
   color: white;
   border: none;
@@ -83,6 +163,26 @@ body {
 
 .new-chat-button:hover {
   background: linear-gradient(135deg, #218838, #19692c);
+  transform: translateY(-2px);
+}
+
+/* Home Button */
+.home-button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.3s ease;
+}
+
+.home-button:hover {
+  background: linear-gradient(135deg, #5a6268, #495057);
   transform: translateY(-2px);
 }
 
@@ -165,32 +265,6 @@ body {
 .menu button:hover {
   background-color: #f0f0f0;
 }
-
-
-.chat-header {
-  padding: 15px 20px;
-  border-bottom: 1px solid #ddd;
-  background-color: #fafafa;
-}
-
-.chat-header h2 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.messages-container {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  order: 2;
-}
-
-/* Message Bubbles */
 .message {
   max-width: 70%;
   margin-bottom: 8px;
@@ -299,7 +373,42 @@ body {
   padding: 12px;
   border-top: 1px solid #ddd;
   background-color: #fafafa;
-  order: 10;
+}
+
+/* Welcome Mode Input Styling */
+.welcome-input {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  padding: 20px;
+  border-radius: 25px;
+  border: 2px solid #007bff;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 123, 255, 0.1);
+  z-index: 10;
+}
+
+.welcome-input-field {
+  flex: 1;
+  border-radius: 25px;
+  padding: 15px 20px;
+  font-size: 16px;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+.welcome-input .send-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  font-size: 18px;
+  margin-left: 10px;
 }
 
 .chat-input {
