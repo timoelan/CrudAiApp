@@ -1,41 +1,54 @@
+// ===============================================================================
+// CRUD AI CHAT APP - SIDEBAR COMPONENT
+// ===============================================================================
+// Chat list management with CRUD operations
+// Handles chat creation, deletion, renaming, and selection
+
 import { loadChats, createChat, deleteChat, updateChat } from './api.ts';
+import type { Chat } from './api.ts';
 import { setActiveChat } from './chat.ts';
 
-export interface Chat {
-  id: number;
-  title: string;
-}
-
+// ===============================================================================
+// STATE MANAGEMENT
+// ===============================================================================
+// Local state for chat list
 let chats: Chat[] = [];
 
-// Sidebar erstellen
+// ===============================================================================
+// DOM ELEMENTS CREATION
+// ===============================================================================
+// Create sidebar container
 const sidebar = document.createElement("div");
 sidebar.className = "sidebar";
 const appContainer = document.getElementById('app')!;
 appContainer.appendChild(sidebar);
 
-// Toggle Button
+// Create toggle button for sidebar collapse
 const toggleButton = document.createElement("button");
 toggleButton.className = "toggle-button";
 toggleButton.textContent = "☰";
 document.body.appendChild(toggleButton);
 
-// Neuer Chat Button
+// Create new chat button
 const newChatButton = document.createElement("button");
 newChatButton.className = "new-chat-button";
 newChatButton.textContent = "+ Neuer Chat";
 sidebar.appendChild(newChatButton);
 
-// Chatliste
+// Create chat list container
 const ul = document.createElement("ul");
 ul.className = "chat-list";
 sidebar.appendChild(ul);
 
-// Event Listeners
+// ===============================================================================
+// EVENT LISTENERS
+// ===============================================================================
+// Sidebar toggle functionality
 toggleButton.addEventListener("click", () => {
   sidebar.classList.toggle("collapsed");
 });
 
+// New chat creation
 newChatButton.addEventListener("click", async () => {
   const title = `Neuer Chat ${chats.length + 1}`;
   const newChat = await createChat(title);
@@ -45,29 +58,41 @@ newChatButton.addEventListener("click", async () => {
   }
 });
 
-// Functions
+// ===============================================================================
+// CORE FUNCTIONS
+// ===============================================================================
+// Load chats from API and render them
+
 async function loadAndRenderChats() {
   chats = await loadChats();
   renderChats();
 }
 
+// Render all chats in the sidebar with interactive elements
 function renderChats() {
   ul.innerHTML = "";
   chats.forEach(chat => {
+    // ===============================================================================
+    // CHAT ENTRY CREATION
+    // ===============================================================================
+    // Create individual chat list item with menu
     const li = document.createElement("li");
     li.className = "chat-entry";
 
-    // Chat Link
+    // Chat clickable link
     const a = document.createElement("a");
     a.href = "#";
     a.textContent = chat.title;
     a.className = "chat-item";
     a.addEventListener("click", () => {
-      setActiveChat(chat);
+      setActiveChat(chat);  // Switch to this chat
     });
     li.appendChild(a);
 
-    // Drei-Punkte Menü
+    // ===============================================================================
+    // CHAT CONTEXT MENU
+    // ===============================================================================
+    // Three-dots menu for chat actions
     const menuButton = document.createElement("button");
     menuButton.textContent = "⋮";
     menuButton.className = "menu-button";
@@ -76,6 +101,7 @@ function renderChats() {
     const menu = document.createElement("div");
     menu.className = "menu hidden";
 
+    // Menu action buttons
     const rename = document.createElement("button");
     rename.textContent = "✏️ Umbenennen";
     rename.addEventListener("click", async () => {
@@ -102,12 +128,16 @@ function renderChats() {
     menu.appendChild(del);
     li.appendChild(menu);
 
-    // Menü toggle
+    // ===============================================================================
+    // MENU EVENT HANDLING
+    // ===============================================================================
+    // Toggle menu visibility and handle clicks
     menuButton.addEventListener("click", (e) => {
       e.stopPropagation();
       menu.classList.toggle("hidden");
     });
 
+    // Close menu when clicking outside
     document.addEventListener("click", () => {
       menu.classList.add("hidden");
     });
@@ -116,7 +146,15 @@ function renderChats() {
   });
 }
 
-export { setActiveChat };
+// ===============================================================================
+// EXPORTS AND INITIALIZATION
+// ===============================================================================
+// Export functions and types, then initialize the component
 
-// Initialize
+export { setActiveChat };
+export type { Chat };
+
+// Initialize sidebar by loading existing chats
+
+// Initialize sidebar by loading existing chats
 loadAndRenderChats();

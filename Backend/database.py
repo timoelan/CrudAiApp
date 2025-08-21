@@ -1,15 +1,28 @@
+# ===============================================================================
+# CRUD AI CHAT APP - DATABASE CONFIGURATION
+# ===============================================================================
+# SQLAlchemy database setup and connection management
+# Handles database URL configuration and session creation
+
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Base  
 
+# ===============================================================================
+# ENVIRONMENT SETUP
+# ===============================================================================
+# Load environment variables from parent directory
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
-# For now, let's use SQLite for easier setup
+# ===============================================================================
+# DATABASE URL CONFIGURATION
+# ===============================================================================
+# Using SQLite for simplicity (file-based database)
 DATABASE_URL = "sqlite:///./crudai.db"
 
-# For PostgreSQL (when Docker is ready):
+# PostgreSQL configuration (for future use with Docker):
 # DB_HOST = os.getenv("DB_HOST")
 # DB_PORT = os.getenv("DB_PORT") 
 # DB_USERNAME = os.getenv("DB_USERNAME")
@@ -17,10 +30,17 @@ DATABASE_URL = "sqlite:///./crudai.db"
 # DB_DATABASE = os.getenv("DB_DATABASE")
 # DATABASE_URL = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}"
 
+# ===============================================================================
+# DATABASE ENGINE AND SESSION SETUP
+# ===============================================================================
+# Create database engine and session factory
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Drop all tables and recreate them (this rebuilds the database)
+# ===============================================================================
+# DATABASE INITIALIZATION
+# ===============================================================================
+# Drop and recreate all tables (fresh start for development)
 Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 print("Datenbank neu erstellt - alle Tabellen wurden neu angelegt!")

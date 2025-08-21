@@ -193,6 +193,13 @@ body {
 /* Message Bubbles */
 .message {
   max-width: 70%;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+}
+
+.message-content {
   padding: 10px 14px;
   border-radius: 16px;
   font-size: 14px;
@@ -200,17 +207,90 @@ body {
   word-wrap: break-word;
 }
 
+.message-time {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
 .message-incoming {
   align-self: flex-start;
+}
+
+.message-incoming .message-content {
   background-color: #e4e6eb;
+  color: #333;
   border-top-left-radius: 4px;
+}
+
+.message-incoming .message-time {
+  align-self: flex-start;
 }
 
 .message-outgoing {
   align-self: flex-end;
+}
+
+.message-outgoing .message-content {
   background-color: #007bff;
   color: white;
   border-top-right-radius: 4px;
+}
+
+.message-outgoing .message-time {
+  align-self: flex-end;
+  color: #fff;
+}
+
+/* Typing Indicator */
+.typing-indicator .message-content {
+  background-color: #e4e6eb !important;
+  padding: 15px 18px;
+}
+
+.typing-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #999;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+/* Error Messages */
+.message.error .message-content {
+  background-color: #ffebee !important;
+  color: #c62828;
+  border-left: 3px solid #c62828;
 }
 
 /* Input */
@@ -226,8 +306,19 @@ body {
   flex: 1;
   padding: 10px 12px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 20px;
   font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input:focus {
+  border-color: #007bff;
+}
+
+.chat-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .send-button {
@@ -235,13 +326,23 @@ body {
   padding: 10px 16px;
   background-color: #007bff;
   border: none;
-  border-radius: 8px;
+  border-radius: 50%;
   color: white;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, opacity 0.2s;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .send-button:hover {
   background-color: #0056b3;
+}
+
+.send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
