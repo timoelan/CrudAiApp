@@ -27,7 +27,6 @@ class Auth0Service:
         if not self.auth_enabled:
             print("⚠️  Auth0 disabled - missing configuration. Running without authentication.")
     
-    @lru_cache(maxsize=128)
     async def get_signing_key(self, kid: str):
         """Get the RSA key from Auth0's JWKS endpoint"""
         try:
@@ -60,14 +59,18 @@ class Auth0Service:
         """Verify JWT token and return user information"""
         if not self.auth_enabled:
             # Return a mock user for development
+            print("🔧 Development mode: returning mock user")
             return {
                 "sub": "dev-user-123",
                 "email": "dev@example.com",
                 "nickname": "Developer",
-                "name": "Development User"
+                "name": "Development User",
+                "picture": "https://via.placeholder.com/150"
             }
             
         try:
+            print(f"🔐 Verifying token for audience: {self.api_audience}")
+            
             # Get token header to find the key ID
             unverified_header = jwt.get_unverified_header(token)
             kid = unverified_header.get("kid")
@@ -90,19 +93,23 @@ class Auth0Service:
                 issuer=self.issuer
             )
             
+            print(f"✅ Token verified successfully for user: {payload.get('email', 'unknown')}")
             return payload
             
         except jwt.ExpiredSignatureError:
+            print("❌ Token expired")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token has expired"
             )
-        except JWTError:
+        except JWTError as e:
+            print(f"❌ JWT Error: {str(e)}")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid token"
+                detail=f"Invalid token: {str(e)}"
             )
         except Exception as e:
+            print(f"❌ Token verification failed: {str(e)}")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail=f"Token verification failed: {str(e)}"

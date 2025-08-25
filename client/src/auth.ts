@@ -27,7 +27,7 @@ class AuthService {
       const config: Auth0Config = {
         domain: import.meta.env.VITE_AUTH0_DOMAIN,
         clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
-        audience: '', // Removed - API not configured in Auth0 yet
+        audience: import.meta.env.VITE_AUTH0_AUDIENCE, // Re-enable API audience
         redirectUri: import.meta.env.VITE_AUTH0_REDIRECT_URI || window.location.origin
       };
 
@@ -41,9 +41,9 @@ class AuthService {
         domain: config.domain,
         clientId: config.clientId,
         authorizationParams: {
-          // audience: config.audience, // Removed - API not configured yet
+          audience: config.audience, // Re-enable API audience
           redirect_uri: config.redirectUri,
-          scope: 'openid profile email'
+          scope: 'openid profile email read:profile write:profile read:chats write:chats delete:chats read:messages write:messages read:ai'
         },
         cacheLocation: 'localstorage',
         useRefreshTokens: true
@@ -90,7 +90,7 @@ class AuthService {
       await this.auth0Client.loginWithRedirect({
         authorizationParams: {
           redirect_uri: window.location.origin,
-          scope: 'openid profile email'
+          scope: 'openid profile email read:profile write:profile read:chats write:chats delete:chats read:messages write:messages read:ai'
         },
         appState: { returnTo: window.location.pathname }
       });

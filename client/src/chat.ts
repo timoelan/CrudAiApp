@@ -18,11 +18,20 @@ let isWelcomeMode: boolean = true; // Track if we're showing welcome screen
 // ===============================================================================
 // DOM ELEMENTS CREATION
 // ===============================================================================
-// Main chat window container
+// Main chat window container - MUSS INNERHALB von main-content sein
 const chatWindow = document.createElement("div");
 chatWindow.className = "chat-window";
-const appContainer = document.getElementById('app')!;
-appContainer.appendChild(chatWindow);
+
+// Wait for main-content to be created
+setTimeout(() => {
+  const mainContent = document.querySelector('.main-content');
+  if (mainContent) {
+    mainContent.appendChild(chatWindow);
+  } else {
+    console.error('main-content not found, appending to app');
+    document.getElementById('app')!.appendChild(chatWindow);
+  }
+}, 0);
 
 // Chat header with title
 const chatHeader = document.createElement("div");
@@ -285,8 +294,10 @@ async function generateAndDisplayAIResponse(chatId: number) {
   try {
     const aiResponse = await generateAIResponse(chatId);
     
-    // Remove typing indicator
-    messagesContainer.removeChild(typingDiv);
+    // Remove typing indicator safely
+    if (typingDiv.parentNode) {
+      messagesContainer.removeChild(typingDiv);
+    }
     
     if (aiResponse) {
       // Display AI response

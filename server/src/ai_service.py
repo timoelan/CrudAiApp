@@ -6,6 +6,7 @@
 
 import httpx
 import json
+import os
 from typing import Optional, Dict, Any
 
 # ===============================================================================
@@ -14,10 +15,12 @@ from typing import Optional, Dict, Any
 # Main service class for interacting with Ollama AI models
 
 class OllamaService:
-    def __init__(self, base_url: str = "http://localhost:11434", model: str = "llama3.2:3b"):
-        self.base_url = base_url
+    def __init__(self, base_url: str = None, model: str = "llama3.2:3b"):
+        # Use environment variable or default to localhost
+        self.base_url = base_url or os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
         self.model = model
         self.client = httpx.AsyncClient()
+        print(f"🤖 Ollama Service initialized with URL: {self.base_url}, Model: {self.model}")
     
     # ===============================================================================
     # AI RESPONSE GENERATION

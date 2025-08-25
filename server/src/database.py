@@ -40,7 +40,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # ===============================================================================
 # DATABASE INITIALIZATION
 # ===============================================================================
-# Drop and recreate all tables (fresh start for development)
-Base.metadata.drop_all(bind=engine)
+# Create tables only if they don't exist (preserve existing data)
 Base.metadata.create_all(bind=engine)
-print("Datenbank neu erstellt - alle Tabellen wurden neu angelegt!")
+print("Datenbank initialisiert - Tabellen erstellt falls sie nicht existieren!")

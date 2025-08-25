@@ -7,12 +7,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      # Disable Auth0 for development to avoid 401 errors
-      # - AUTH0_DOMAIN=dev-f7ttgvlvcizan1uj.eu.auth0.com
-      # - AUTH0_API_AUDIENCE=https://crudai-api
-      # - AUTH0_ISSUER=https://dev-f7ttgvlvcizan1uj.eu.auth0.com/
-      # - AUTH0_ALGORITHMS=RS256
-      - DEVELOPMENT_MODE=true
+      # Re-enable Auth0 with the new API
+      - AUTH0_DOMAIN=dev-f7ttgvlvcizan1uj.eu.auth0.com
+      - AUTH0_API_AUDIENCE=https://crudai-api
+      - AUTH0_ISSUER=https://dev-f7ttgvlvcizan1uj.eu.auth0.com/
+      - AUTH0_ALGORITHMS=RS256
       - DATABASE_URL=sqlite:///./crudai.db
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
     volumes:

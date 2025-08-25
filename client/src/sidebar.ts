@@ -18,15 +18,16 @@ let chats: Chat[] = [];
 // ===============================================================================
 // DOM ELEMENTS CREATION
 // ===============================================================================
-// Create sidebar container (append to main-content instead of app)
+// Create sidebar container - FIRST in main-content (vor dem Chat Window)
 const sidebar = document.createElement("div");
 sidebar.className = "sidebar";
 
-// Wait for main-content to be created
+// Wait for main-content to be created then add sidebar FIRST
 setTimeout(() => {
   const mainContent = document.querySelector('.main-content');
   if (mainContent) {
-    mainContent.appendChild(sidebar);
+    // Sidebar soll als ERSTES Element in main-content eingefügt werden
+    mainContent.insertBefore(sidebar, mainContent.firstChild);
   }
 }, 0);
 
@@ -173,10 +174,25 @@ function renderChats() {
 export { setActiveChat };
 export type { Chat };
 
-// Initialize sidebar by loading existing chats
+// Wait for Auth0 to be ready before loading chats
+import { authService } from './auth.js';
 
-// Initialize sidebar by loading existing chats
-loadAndRenderChats();
+// Track if we already loaded chats to prevent endless loop
+let chatsLoaded = false;
+
+// Initialize sidebar after auth is ready
+authService.onAuthStateChanged(async (isAuthenticated) => {
+  if (isAuthenticated && !chatsLoaded) {
+    console.log('🔄 Auth state changed - loading chats (first time)');
+    await loadAndRenderChats();
+    chatsLoaded = true;
+  } else if (!isAuthenticated) {
+    // Clear chats when not authenticated and reset flag
+    chats = [];
+    renderChats();
+    chatsLoaded = false;
+  }
+});
 
 // ===============================================================================
 // CUSTOM EVENT LISTENERS
