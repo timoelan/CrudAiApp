@@ -1,12 +1,13 @@
 // ===============================================================================
-// CRUD AI CHAT APP - SIDEBAR COMPONENT
+// CRUD AI CHAT APP - SIDEBAR COMPONENT WITH AUTH0
 // ===============================================================================
-// Chat list management with CRUD operations
+// Chat list management with CRUD operations and authentication
 // Handles chat creation, deletion, renaming, and selection
 
-import { loadChats, createChat, deleteChat, updateChat } from './api.ts';
-import type { Chat } from './api.ts';
-import { setActiveChat } from './chat.ts';
+import { loadChats, createChat, deleteChat, updateChat } from './api.js';
+import type { Chat } from './api.js';
+import { setActiveChat } from './chat.js';
+import { authUI } from './auth-ui.js';
 
 // ===============================================================================
 // STATE MANAGEMENT
@@ -17,11 +18,17 @@ let chats: Chat[] = [];
 // ===============================================================================
 // DOM ELEMENTS CREATION
 // ===============================================================================
-// Create sidebar container
+// Create sidebar container (append to main-content instead of app)
 const sidebar = document.createElement("div");
 sidebar.className = "sidebar";
-const appContainer = document.getElementById('app')!;
-appContainer.appendChild(sidebar);
+
+// Wait for main-content to be created
+setTimeout(() => {
+  const mainContent = document.querySelector('.main-content');
+  if (mainContent) {
+    mainContent.appendChild(sidebar);
+  }
+}, 0);
 
 // Create toggle button for sidebar collapse
 const toggleButton = document.createElement("button");

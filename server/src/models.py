@@ -21,8 +21,13 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    auth0_user_id = Column(String, unique=True, nullable=False)  # Auth0 user ID (sub claim)
     username = Column(String, nullable=False)
     email = Column(String, nullable=False)
+    name = Column(String, nullable=True)  # Full name from Auth0
+    picture = Column(String, nullable=True)  # Profile picture URL from Auth0
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 # ===============================================================================
 # MESSAGE MODEL
@@ -46,3 +51,5 @@ class Chat(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     title = Column(String, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)

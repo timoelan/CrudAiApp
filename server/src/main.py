@@ -17,14 +17,25 @@ from routes import router
 # Load environment variables from .env file
 load_dotenv()
 
+# Validate Auth0 configuration
+required_auth_vars = ["AUTH0_DOMAIN", "AUTH0_API_AUDIENCE", "AUTH0_ISSUER"]
+missing_vars = [var for var in required_auth_vars if not os.getenv(var)]
+
+if missing_vars:
+    print(f"⚠️  Warning: Missing Auth0 environment variables: {missing_vars}")
+    print("   Auth0 authentication will not work until these are configured.")
+    print("   Copy .env.example to .env and fill in your Auth0 values.")
+else:
+    print("✅ Auth0 configuration loaded successfully")
+
 # ===============================================================================
 # FASTAPI APPLICATION SETUP
 # ===============================================================================
 # Initialize FastAPI app with metadata
 app = FastAPI(
-    title="CRUD AI Chat API",
-    description="Full-stack chat application with AI integration",
-    version="1.0.0"
+    title="CRUD AI Chat API with Auth0",
+    description="Full-stack chat application with AI integration and Auth0 authentication",
+    version="2.0.0"
 )
 
 # ===============================================================================
@@ -44,10 +55,16 @@ app.add_middleware(
 # ===============================================================================
 # ROOT ENDPOINT
 # ===============================================================================
-# Basic health check endpoint
+# Basic health check endpoint with Auth0 status
 @app.get("/")
 def root():
-    return {'message' : 'Hello World'}
+    auth_status = "configured" if all(os.getenv(var) for var in ["AUTH0_DOMAIN", "AUTH0_API_AUDIENCE"]) else "not configured"
+    return {
+        'message': 'CRUD AI Chat API with Auth0',
+        'version': '2.0.0',
+        'auth0_status': auth_status,
+        'features': ['Chat Management', 'AI Integration', 'User Authentication']
+    }
 
 # ===============================================================================
 # ROUTE REGISTRATION

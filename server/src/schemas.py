@@ -13,13 +13,29 @@ from datetime import datetime
 # Data models for user creation and API responses
 
 class UserCreate(BaseModel):
+    auth0_user_id: str
     username: str
     email: str
+    name: str = None
+    picture: str = None
+
+class UserUpdate(BaseModel):
+    username: str = None
+    name: str = None
+    picture: str = None
 
 class UserResponse(BaseModel):
     id: int
+    auth0_user_id: str
     username: str
     email: str
+    name: str = None
+    picture: str = None
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
 
 # ===============================================================================
 # CHAT SCHEMAS
@@ -29,10 +45,18 @@ class UserResponse(BaseModel):
 class ChatCreate(BaseModel):
     title: str
 
+class ChatUpdate(BaseModel):
+    title: str
+
 class ChatResponse(BaseModel):
     id: int
     title: str
     user_id: int
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
 
 # ===============================================================================
 # MESSAGE SCHEMAS

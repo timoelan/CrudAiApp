@@ -13,6 +13,7 @@
     "vite": "^7.1.2"
   },
   "dependencies": {
+    "@auth0/auth0-spa-js": "^2.3.0",
     "@tailwindcss/vite": "^4.1.12",
     "tailwindcss": "^4.1.12"
   }
