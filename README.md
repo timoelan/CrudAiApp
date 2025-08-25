@@ -1,4 +1,4 @@
-# 🚀 CrudAiApp - AI-Powered Chat Application
+# # CrudAI Chat App
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
@@ -6,109 +6,140 @@
 [![Auth0](https://img.shields.io/badge/Auth0-EB5424?style=flat&logo=auth0&logoColor=white)](https://auth0.com/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://docker.com)
 
-Eine moderne, voll-authentifizierte Chat-Anwendung mit AI-Integration über Ollama, Auth0-Authentifizierung und einer professionellen Architektur.
+A full-stack chat application with Auth0 authentication and local AI integration via Ollama.
 
-## 📁 Projektstruktur
+## Features
 
-```
-CrudAiApp/
-├── 📄 README.md                    # Projekt-Übersicht
-├── 📁 server/                      # Backend (FastAPI + Python)
-│   ├── 📁 src/                     # Python Quellcode
-│   │   ├── 🐍 main.py             # FastAPI Hauptanwendung
-│   │   ├── 🔐 auth_service.py     # Auth0 JWT Verifizierung
-│   │   ├── 🤖 ai_service.py       # Ollama AI Integration
-│   │   ├── 📊 database.py         # SQLAlchemy Setup
-│   │   ├── 📋 models.py           # Datenbank Modelle
-│   │   ├── 📝 schemas.py          # Pydantic Schemas
-│   │   ├── 🛣️ routes.py            # API Endpunkte
-│   │   ├── 📦 requirements.txt    # Python Dependencies
-│   │   ├── 🗄️ crudai.db           # SQLite Datenbank
-│   │   └── 🚫 .dockerignore       # Docker Ignore Rules
-│   └── 📁 config/                  # Konfigurationsdateien
-│       ├── ⚙️ .env                # Umgebungsvariablen (lokal)
-│       └── 📋 .env.example        # Template für .env
-├── 📁 client/                      # Frontend (Vite + TypeScript)
-│   ├── 📁 src/                     # TypeScript Quellcode
-│   │   ├── 🎯 main.ts             # Haupt-Entry Point
-│   │   ├── 🔌 api.ts              # Backend API Client
-│   │   ├── 🔐 auth.ts             # Auth0 Service
-│   │   ├── 🎨 auth-ui.ts          # Authentication UI
-│   │   ├── 💬 chat.ts             # Chat Interface Logic
-│   │   ├── 📋 sidebar.ts          # Sidebar Management
-│   │   ├── 💅 style.css           # Tailwind Styles
-│   │   └── 🏷️ vite-env.d.ts       # Vite Type Definitions
-│   ├── 📁 public/                  # Statische Assets
-│   │   └── 🎨 vite.svg            # Vite Logo
-│   ├── 📄 index.html              # HTML Template
-│   ├── 📦 package.json            # Node.js Dependencies
-│   ├── 🔒 package-lock.json       # Dependency Lock
-│   ├── ⚙️ tsconfig.json           # TypeScript Konfiguration
-│   ├── 🎨 tailwind.config.js      # Tailwind CSS Setup
-│   ├── 📄 .env                    # Client Umgebungsvariablen
-│   ├── 📋 .env.example            # Template für Client .env
-│   ├── 🚫 .gitignore              # Git Ignore Rules
-│   └── 🚫 .dockerignore           # Docker Ignore Rules
-├── 📁 docker/                      # Docker Konfiguration
-│   ├── 🐳 server.Dockerfile       # Backend Container Build
-│   ├── 🐳 client.Dockerfile       # Frontend Container Build
-│   └── 🐙 docker-compose.yaml     # Multi-Container Setup
-├── 📁 docs/                        # Dokumentation
-│   ├── 📖 API_ENDPOINTS_GUIDE.md  # API Dokumentation
-│   └── 🤖 OLLAMA_INTEGRATION_GUIDE.md # Ollama Setup Guide
-└── 📁 scripts/                     # Utility Scripts
-    └── (Platz für zukünftige Scripts)
-```
+- **Auth0 Authentication**: Secure JWT-based user authentication
+- **Local AI Integration**: Ollama-powered chat responses (llama3.2:3b)
+- **Persistent Storage**: SQLite database with auto-migrations
+- **Real-time Chat**: Interactive chat interface with sidebar management
+- **Docker Support**: Multi-container setup with health checks
+- **Modern UI**: Responsive design with TypeScript frontend
 
-## ✨ Features
+## Quick Start
 
-- 🔐 **Auth0 Integration**: Vollständige Benutzerauthentifizierung
-- 💬 **Real-time Chat**: Interaktive Chat-Sessions
-- 🤖 **AI-Integration**: Ollama-powered Antworten
-- 📱 **Responsive Design**: Modernes UI mit Tailwind CSS
-- 🐳 **Docker Support**: Einfaches Deployment
-- 🛡️ **Sichere API**: JWT-basierte Authentifizierung
-- 📊 **SQLite Database**: Persistente Datenspeicherung
-
-## 🚀 Schnellstart
-
-### 📋 Voraussetzungen
-
+### Prerequisites
 - Node.js 18+
 - Python 3.9+
 - Docker & Docker Compose
-- Ollama (für AI Features)
-- Auth0 Account
+- Ollama (for AI features)
+- Auth0 account
 
-### 🔧 Installation
+### Setup
 
-1. **Repository klonen:**
+1. **Clone repository:**
 ```bash
-git clone <repository-url>
+git clone https://github.com/timoelan/CrudAiApp.git
 cd CrudAiApp
 ```
 
-2. **Auth0 konfigurieren:**
+2. **Install Ollama and model:**
 ```bash
-# Server Config
-cp server/config/.env.example server/config/.env
-# Client Config
-cp client/.env.example client/.env
+curl -fsSL https://ollama.com/install.sh | sh
+ollama serve
+ollama pull llama3.2:3b
 ```
 
-3. **Mit Docker starten:**
+3. **Configure Auth0:**
+
+Create a Single Page Application in [Auth0 Dashboard](https://auth0.com):
+- **Application Type:** Single Page Application
+- **Allowed Callback URLs:** `http://localhost:5173`
+- **Allowed Web Origins:** `http://localhost:5173`
+- **Allowed Logout URLs:** `http://localhost:5173`
+
+Create an API in Auth0:
+- **Identifier:** `https://crudai-api`
+- **Signing Algorithm:** RS256
+
+4. **Environment setup:**
+
+Frontend (.env):
+```bash
+cd client
+cp .env.example .env
+# Add your Auth0 values
+```
+
+Backend (.env):
+```bash
+cd server/config
+cp .env.example .env
+# Add your Auth0 values
+```
+
+5. **Start with Docker:**
 ```bash
 cd docker
-docker-compose up --build
+docker-compose up --build -d
 ```
 
-4. **Oder manuell starten:**
+6. **Access:**
+- **Frontend:** http://localhost:5173
+- **Backend:** http://localhost:8000
+- **API Docs:** http://localhost:8000/docs
+
+## Project Structure
+
+```
+CrudAiApp/
+├── client/                 # Frontend (Vite + TypeScript)
+│   ├── src/
+│   │   ├── main.ts        # Application entry
+│   │   ├── auth.ts        # Auth0 service
+│   │   ├── api.ts         # Backend API client
+│   │   ├── chat.ts        # Chat interface
+│   │   └── sidebar.ts     # Chat management
+│   └── package.json
+├── server/                 # Backend (FastAPI + Python)
+│   └── src/
+│       ├── main.py        # FastAPI application
+│       ├── auth_service.py # JWT verification
+│       ├── ai_service.py  # Ollama integration
+│       ├── database.py    # SQLAlchemy setup
+│       ├── models.py      # Database models
+│       └── routes.py      # API endpoints
+├── docker/                 # Docker configuration
+│   ├── server.Dockerfile
+│   ├── client.Dockerfile
+│   └── docker-compose.yaml
+└── docs/                   # Documentation
+    ├── API_ENDPOINTS_GUIDE.md
+    └── OLLAMA_INTEGRATION_GUIDE.md
+```
+
+## API Endpoints
+
+All endpoints require Bearer JWT token authentication.
+
+### User Management
+- `GET /users/me` - Get current user
+- `PUT /users/me` - Update user profile
+
+### Chat Management
+- `GET /chats` - Get user chats
+- `POST /chats` - Create new chat
+- `GET /chats/{id}` - Get specific chat
+- `PUT /chats/{id}` - Update chat
+- `DELETE /chats/{id}` - Delete chat
+
+### Messages
+- `GET /messages/{chat_id}` - Get chat messages
+- `POST /messages` - Send new message
+
+### AI Integration
+- `POST /ai/generate/{chat_id}` - Generate AI response
+
+## Development
+
+### Local Development (without Docker)
 
 **Backend:**
 ```bash
 cd server/src
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
+source venv/bin/activate
 pip install -r requirements.txt
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
@@ -120,46 +151,445 @@ npm install
 npm run dev
 ```
 
-## 🌐 Zugriff
+### Useful Commands
+```bash
+# View logs
+docker-compose -f docker/docker-compose.yaml logs -f
 
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
+# Restart services
+docker-compose -f docker/docker-compose.yaml restart
 
-## 🔧 Konfiguration
+# Stop all
+docker-compose -f docker/docker-compose.yaml down
+```
 
-### Auth0 Setup
-1. Erstelle eine Auth0 SPA Application
-2. Konfiguriere Callback URLs: `http://localhost:5173`
-3. Kopiere Domain, Client ID und Audience in die .env Files
+## Troubleshooting
 
-### Ollama Setup
-1. Installiere Ollama: https://ollama.ai
-2. Starte Ollama Server: `ollama serve`
-3. Lade ein Modell: `ollama pull llama2`
+### Auth0 Login Issues
+```bash
+# Check Auth0 configuration
+echo $VITE_AUTH0_DOMAIN
+echo $VITE_AUTH0_CLIENT_ID
 
-## 📚 Dokumentation
+# Ensure callback URL is correct in Auth0 Dashboard
+```
 
-Detaillierte Dokumentation findest du im `docs/` Ordner:
-- **API Guide**: `docs/API_ENDPOINTS_GUIDE.md`
-- **Ollama Integration**: `docs/OLLAMA_INTEGRATION_GUIDE.md`
+### AI Not Responding
+```bash
+# Check if Ollama is running
+curl http://localhost:11434/api/version
 
-## 🤝 Contributing
+# Start Ollama if not running
+ollama serve
 
-1. Fork das Repository
-2. Erstelle einen Feature Branch
-3. Committe deine Änderungen
-4. Push zum Branch
-5. Erstelle einen Pull Request
+# Check available models
+ollama list
+```
 
-## 📄 Lizenz
+### Database Issues
+```bash
+# Check database file
+ls -la server/src/crudai.db
 
-MIT License - siehe [LICENSE](LICENSE) für Details
+# Test SQLite directly
+sqlite3 server/src/crudai.db "SELECT * FROM chats LIMIT 5;"
+```
 
-## 🆘 Support
+## Contributing
 
-Bei Fragen oder Problemen erstelle ein Issue im GitHub Repository.
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License.
 
 ---
 
-**Gebaut mit ❤️ und modernen Web-Technologien**
+**Built with modern web technologies for secure, local AI-powered chat.**
+
+## ✨ Features
+
+### 🔐 **Authentication & Security**
+- **Auth0 SPA Integration** mit JWT-Token-Validierung
+- **Sichere JWKS-basierte** Token-Verifizierung
+- **Benutzer-spezifische** Chats und Nachrichten
+- **CORS-sichere** Frontend-Backend-Kommunikation
+
+### 🤖 **AI-Integration**  
+- **Ollama-Integration** für lokale KI (llama3.2:3b)
+- **Offline-AI** ohne externe API-Kosten
+- **Konversationskontext** wird beibehalten
+- **Typing-Indikatoren** für bessere UX
+
+### � **Datenpersistenz**
+- **SQLite-Datenbank** mit persistenter Speicherung
+- **Auto-Migrationssichere** Datenbankinitialisierung  
+- **Vollständige CRUD-Operationen** für Chats & Nachrichten
+- **Benutzer-Profil-Management**
+
+### 🎨 **Modern UI/UX**
+- **Responsive Design** mit CSS Grid/Flexbox
+- **Welcome-Screen** mit zentriertem Input
+- **Sidebar** mit Chat-Verwaltung (erstellen, umbenennen, löschen)
+- **Real-time Chat** mit Nachrichten-Historie
+
+### 🐳 **Container-Ready**
+- **Docker Compose** Multi-Container-Setup
+- **Health Checks** für alle Services
+- **Volume-Mapping** für Datenpersistenz
+- **Environment-basierte** Konfiguration
+
+## 🏗️ Architektur
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Production Architecture                   │
+├─────────────────────────────────────────────────────────────┤
+│  Frontend (React-like TypeScript)                          │
+│  ├── Auth0 SPA Client (JWT Tokens)                        │
+│  ├── Chat UI (Messages, Sidebar)                          │
+│  └── API Client (HTTP + CORS)                             │
+│                            │                               │
+│  ┌─────────────────────────▼──────────────────────────┐    │
+│  │              Backend (FastAPI)                     │    │
+│  │  ├── JWT Verification (JWKS)                      │    │
+│  │  ├── CRUD API Routes                               │    │
+│  │  ├── Ollama AI Integration                         │    │
+│  │  └── SQLAlchemy ORM                                │    │
+│  └─────────────────────────┬──────────────────────────┘    │
+│                            │                               │
+│  ┌─────────────────────────▼──────────────────────────┐    │
+│  │                    Data Layer                      │    │
+│  │  ├── SQLite Database (crudai.db)                  │    │
+│  │  └── Ollama (llama3.2:3b)                         │    │
+│  └────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## � Quick Start
+
+### 1. **Repository klonen**
+```bash
+git clone https://github.com/timoelan/CrudAiApp.git
+cd CrudAiApp
+```
+
+### 2. **Ollama installieren & Modell laden**
+```bash
+# Ollama installieren (macOS)
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Ollama starten
+ollama serve
+
+# KI-Modell herunterladen (in neuem Terminal)
+ollama pull llama3.2:3b
+```
+
+### 3. **Auth0 konfigurieren**
+
+Erstelle eine **Single Page Application** in [Auth0 Dashboard](https://auth0.com):
+
+**Application Settings:**
+- **Application Type:** Single Page Application
+- **Allowed Callback URLs:** `http://localhost:5173`
+- **Allowed Web Origins:** `http://localhost:5173`
+- **Allowed Logout URLs:** `http://localhost:5173`
+
+**API Configuration (wichtig!):**
+1. Erstelle eine **API** in Auth0 Dashboard
+2. **Identifier:** `https://crudai-api`
+3. **Signing Algorithm:** RS256
+
+### 4. **Environment Setup**
+
+#### **Frontend (.env)**
+```bash
+cd client
+cp .env.example .env
+
+# Füge deine Auth0-Werte ein:
+VITE_AUTH0_DOMAIN=your-domain.auth0.com
+VITE_AUTH0_CLIENT_ID=your-client-id  
+VITE_AUTH0_AUDIENCE=https://crudai-api
+VITE_AUTH0_REDIRECT_URI=http://localhost:5173
+```
+
+#### **Backend (.env)**  
+```bash
+cd server/config
+cp .env.example .env
+
+# Füge deine Auth0-Werte ein:
+AUTH0_DOMAIN=your-domain.auth0.com
+AUTH0_API_AUDIENCE=https://crudai-api
+AUTH0_ISSUER=https://your-domain.auth0.com/
+AUTH0_ALGORITHMS=RS256
+```
+
+### 5. **Starten mit Docker**
+```bash
+# Development Environment starten
+./scripts/dev-start.sh
+
+# Oder manuell:
+cd docker
+docker-compose up --build -d
+```
+
+### 6. **Zugriff**
+- **Frontend:** http://localhost:5173
+- **Backend:** http://localhost:8000  
+- **API Docs:** http://localhost:8000/docs
+
+## 📁 Projektstruktur
+
+```
+CrudAiApp/
+├── � README.md                    # Projekt-Übersicht
+├── 📁 client/                      # Frontend (Vite + TypeScript)
+│   ├── 📁 src/                     # TypeScript Quellcode
+│   │   ├── 🎯 main.ts             # Haupt-Entry Point
+│   │   ├── � auth.ts             # Auth0 Service
+│   │   ├── 🎨 auth-ui.ts          # Authentication UI
+│   │   ├── 🔌 api.ts              # Backend API Client
+│   │   ├── 💬 chat.ts             # Chat Interface Logic
+│   │   ├── 📋 sidebar.ts          # Sidebar Management
+│   │   ├── 💅 style.css           # CSS Styles
+│   │   └── 🏷️ vite-env.d.ts       # Vite Type Definitions
+│   ├── � index.html              # HTML Template
+│   ├── 📦 package.json            # Node.js Dependencies
+│   └── ⚙️ tsconfig.json           # TypeScript Konfiguration
+├── � server/                      # Backend (FastAPI + Python)
+│   └── � src/                     # Python Quellcode
+│       ├── � main.py             # FastAPI Hauptanwendung
+│       ├── 🔐 auth_service.py     # Auth0 JWT Verifizierung
+│       ├── 🤖 ai_service.py       # Ollama AI Integration
+│       ├── 📊 database.py         # SQLAlchemy Setup
+│       ├── � models.py           # Datenbank Modelle
+│       ├── 📝 schemas.py          # Pydantic Schemas
+│       ├── �️ routes.py            # API Endpunkte
+│       ├── � requirements.txt    # Python Dependencies
+│       └── �️ crudai.db           # SQLite Datenbank
+├── 📁 docker/                      # Docker Konfiguration
+│   ├── 🐳 server.Dockerfile       # Backend Container Build
+│   ├── 🐳 client.Dockerfile       # Frontend Container Build
+│   └── 🐙 docker-compose.yaml     # Multi-Container Setup
+├── 📁 docs/                        # Dokumentation
+│   ├── 📖 API_ENDPOINTS_GUIDE.md  # API Dokumentation
+│   ├── 🤖 OLLAMA_INTEGRATION_GUIDE.md # Ollama Setup Guide
+│   └── � AUTH0_API_SETUP.md      # Auth0 Setup Guide
+└── �📁 scripts/                     # Utility Scripts
+    ├── 🚀 dev-start.sh            # Development Startup
+    ├── 🛑 dev-stop.sh             # Development Stop
+    └── ⚙️ setup.sh               # Initial Project Setup
+```
+
+## 📱 Benutzung
+
+### **1. Anmelden**
+- Klicke auf "Mit Auth0 anmelden"
+- Authentifiziere dich über Auth0
+- Du wirst automatisch zurück zur App weitergeleitet
+
+### **2. Chat starten**
+- Schreibe deine erste Nachricht im Welcome-Screen
+- Ein neuer Chat wird automatisch erstellt
+- Die KI antwortet automatisch mit Ollama
+
+### **3. Chat-Verwaltung**
+- **Neuer Chat:** "+ Neuer Chat" Button in der Sidebar
+- **Chat umbenennen:** ⋮ Menu → "✏️ Umbenennen" 
+- **Chat löschen:** ⋮ Menu → "🗑️ Löschen"
+- **Startseite:** "🏠 Startseite" Button
+
+### **4. Nachrichten**
+- Nachrichten werden **automatisch gespeichert**
+- **Konversationskontext** wird beibehalten
+- **Typing-Indikatoren** während KI-Antwort
+- **Scroll-to-bottom** für neue Nachrichten
+
+## 🛠️ Entwicklung
+
+### **Lokale Entwicklung (ohne Docker)**
+
+#### Backend:
+```bash
+cd server/src
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+#### Frontend:
+```bash
+cd client
+npm install
+npm run dev
+```
+
+### **Nützliche Kommandos**
+```bash
+# Logs anschauen
+docker-compose -f docker/docker-compose.yaml logs -f
+
+# Services neustarten
+docker-compose -f docker/docker-compose.yaml restart
+
+# Alles stoppen
+docker-compose -f docker/docker-compose.yaml down
+
+# Setup-Script ausführen
+./scripts/setup.sh
+```
+
+## 📚 API Dokumentation
+
+### **Authentifizierte Endpoints**
+
+Alle Endpoints benötigen einen **Bearer JWT Token** im Authorization Header.
+
+#### **User Management**
+- `GET /users/me` - Aktuellen Benutzer abrufen
+- `PUT /users/me` - Benutzerprofil aktualisieren
+
+#### **Chat Management**  
+- `GET /chats` - Alle Benutzer-Chats
+- `POST /chats` - Neuen Chat erstellen
+- `GET /chats/{id}` - Spezifischen Chat abrufen
+- `PUT /chats/{id}` - Chat aktualisieren
+- `DELETE /chats/{id}` - Chat löschen
+
+#### **Messages**
+- `GET /messages/{chat_id}` - Chat-Nachrichten
+- `POST /messages` - Neue Nachricht senden
+
+#### **AI Integration**
+- `POST /ai/generate/{chat_id}` - KI-Antwort generieren
+
+Detaillierte API-Dokumentation findest du in [`docs/API_ENDPOINTS_GUIDE.md`](docs/API_ENDPOINTS_GUIDE.md).
+
+## 🔧 Konfiguration
+
+### **Ollama Modelle**
+
+#### **Verfügbare Modelle:**
+```bash
+# Empfohlen für Chat (schnell, gut)
+ollama pull llama3.2:3b
+
+# Sehr schnell (weniger genau)
+ollama pull llama3.2:1b  
+
+# Größer, sehr gut (mehr RAM)
+ollama pull mistral:7b
+
+# Für Code-Generierung
+ollama pull codellama:7b
+```
+
+#### **Modell wechseln:**
+```python
+# In server/src/ai_service.py
+self.model = "mistral:7b"  # Oder ein anderes Modell
+```
+
+Vollständige Ollama-Integration findest du in [`docs/OLLAMA_INTEGRATION_GUIDE.md`](docs/OLLAMA_INTEGRATION_GUIDE.md).
+
+## 🔍 Troubleshooting
+
+### **Häufige Probleme:**
+
+#### **1. Auth0 Login funktioniert nicht**
+```bash
+# Prüfe Auth0-Konfiguration
+echo $VITE_AUTH0_DOMAIN
+echo $VITE_AUTH0_CLIENT_ID
+
+# Stelle sicher, dass Callback URL korrekt ist
+# Auth0 Dashboard > Applications > Settings > Allowed Callback URLs
+# Muss enthalten: http://localhost:5173
+```
+
+#### **2. AI antwortet nicht (503 Error)**
+```bash
+# Prüfe ob Ollama läuft
+curl http://localhost:11434/api/version
+
+# Ollama starten falls nicht läuft
+ollama serve
+
+# Modell prüfen
+ollama list
+```
+
+#### **3. Datenbank-Probleme**
+```bash
+# Datenbank-Datei prüfen  
+ls -la server/src/crudai.db
+
+# SQLite direkt testen
+sqlite3 server/src/crudai.db "SELECT * FROM chats LIMIT 5;"
+```
+
+#### **4. Docker-Container-Probleme**
+```bash
+# Container-Status prüfen
+docker ps
+
+# Logs überprüfen
+docker-compose -f docker/docker-compose.yaml logs backend
+docker-compose -f docker/docker-compose.yaml logs frontend
+
+# Container neu bauen
+docker-compose -f docker/docker-compose.yaml up --build --force-recreate
+```
+
+## 📊 Performance & Skalierung
+
+### **Aktuelle Limits:**
+- **SQLite:** Bis ~100k Nachrichten (für mehr: PostgreSQL)
+- **Ollama:** Lokaler RAM-basiert (3B Modell = ~4GB RAM)
+- **Auth0:** 7,000 aktive Benutzer (kostenlos)
+
+### **Produktions-Optimierungen:**
+- **Datenbank:** Wechsel zu PostgreSQL
+- **Ollama:** GPU-Beschleunigung aktivieren
+- **Caching:** Redis für Session-Management
+- **Load Balancing:** Nginx für mehrere Backend-Instanzen
+
+## 🤝 Contributing
+
+Contributions sind willkommen! Bitte:
+
+1. **Fork** das Repository
+2. **Branch** erstellen (`git checkout -b feature/neue-funktion`)
+3. **Commit** deine Changes (`git commit -m 'Neue Funktion hinzugefügt'`)
+4. **Push** zum Branch (`git push origin feature/neue-funktion`)
+5. **Pull Request** öffnen
+
+## 📄 Lizenz
+
+Dieses Projekt ist unter der **MIT Lizenz** veröffentlicht. Siehe `LICENSE` Datei für Details.
+
+## 🙏 Credits
+
+- **FastAPI** - Modernes Python Web Framework
+- **Auth0** - Authentifizierung als Service
+- **Ollama** - Lokale LLM-Runtime
+- **Vite** - Schneller Frontend-Build-Tool
+- **SQLAlchemy** - Python ORM
+- **TypeScript** - Typsichere JavaScript-Entwicklung
+
+---
+
+**⭐ Star das Repository wenn es dir geholfen hat!**
+
+**🐛 Issues melden:** [GitHub Issues](https://github.com/timoelan/CrudAiApp/issues)
+
+**📧 Kontakt:** [GitHub Profile](https://github.com/timoelan)
