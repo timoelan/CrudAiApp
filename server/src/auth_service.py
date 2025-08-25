@@ -97,7 +97,7 @@ class Auth0Service:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token has expired"
             )
-        except jwt.InvalidTokenError:
+        except JWTError:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token"

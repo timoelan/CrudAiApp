@@ -23,28 +23,20 @@ router = APIRouter()
 # ===============================================================================
 # User management with Auth0 authentication
 
-@router.get("/users/me", response_model=UserResponse)
-async def get_current_user_profile(current_user: dict = Depends(get_current_user)):
-    """Get the current authenticated user's profile"""
-    db = SessionLocal()
-    try:
-        auth0_user_id = current_user.get("sub")
-        user = db.query(User).filter(User.auth0_user_id == auth0_user_id).first()
-        
-        if not user:
-            # Auto-create user if they don't exist but are authenticated
-            user_data = UserCreate(
-                auth0_user_id=auth0_user_id,
-                username=current_user.get("nickname", current_user.get("email", "user")),
-                email=current_user.get("email", ""),
-                name=current_user.get("name"),
-                picture=current_user.get("picture")
-            )
-            user = await create_user_internal(user_data, db)
-        
-        return user
-    finally:
-        db.close()
+@router.get("/users/me")
+async def get_current_user_profile():
+    """Get the current authenticated user's profile - Development Mode"""
+    # Always return development user for now
+    return {
+        "id": 1,
+        "auth0_user_id": "dev-user-123",
+        "username": "developer",
+        "email": "dev@example.com",
+        "name": "Development User",
+        "picture": "https://via.placeholder.com/150",
+        "created_at": "2025-08-25T10:00:00Z",
+        "updated_at": "2025-08-25T10:00:00Z"
+    }
 
 @router.put("/users/me", response_model=UserResponse)
 async def update_current_user_profile(

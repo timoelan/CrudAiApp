@@ -41,15 +41,21 @@ app = FastAPI(
 # ===============================================================================
 # CORS MIDDLEWARE CONFIGURATION
 # ===============================================================================
-# Allow frontend (localhost:5173) to communicate with backend
+# Allow frontend to communicate with backend - both local and Docker
 origins = [
     "http://localhost:5173",
+    "http://127.0.0.1:5173", 
+    "http://0.0.0.0:5173",
+    "http://localhost:3000",  # Additional common ports
+    "http://127.0.0.1:3000",
 ]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["*"]
+    allow_credentials=True,  # Important for Auth0 tokens
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
 )
 
 # ===============================================================================

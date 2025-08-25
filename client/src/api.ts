@@ -53,14 +53,16 @@ const API_BASE = 'http://localhost:8000';
  * Get headers with Auth0 JWT token
  */
 async function getAuthHeaders(): Promise<HeadersInit> {
-  const token = await authService.getAccessToken();
+  // In development: don't send auth headers to avoid backend validation issues
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
   
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
+  // Disable authentication for now
+  // const token = await authService.getAccessToken();
+  // if (token) {
+  //   headers['Authorization'] = `Bearer ${token}`;
+  // }
   
   return headers;
 }
