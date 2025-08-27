@@ -19,7 +19,7 @@ class AuthUI {
     await this.updateAuthState();
     
     // Listen for auth state changes
-    authService.onAuthStateChanged(async (isAuthenticated) => {
+    authService.onAuthStateChanged(async () => {
       await this.updateAuthState();
     });
 

@@ -7,7 +7,6 @@
 import { loadChats, createChat, deleteChat, updateChat } from './api.js';
 import type { Chat } from './api.js';
 import { setActiveChat } from './chat.js';
-import { authUI } from './auth-ui.js';
 
 // ===============================================================================
 // STATE MANAGEMENT
