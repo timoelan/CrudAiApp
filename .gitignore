@@ -144,3 +144,9 @@ data/
 .local/
 local/
 *.local.*
+
+
+
+client/aws/install
+client/aws/THIRD_PARTY_LICENSES
+client/awscliv2.zip
