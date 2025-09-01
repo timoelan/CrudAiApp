@@ -131,26 +131,6 @@ All endpoints require Bearer JWT token authentication.
 ### AI Integration
 - `POST /ai/generate/{chat_id}` - Generate AI response
 
-## Development
-
-### Local Development (without Docker)
-
-**Backend:**
-```bash
-cd server/src
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-**Frontend:**
-```bash
-cd client
-npm install
-npm run dev
-```
-
 ## Troubleshooting
 
 ### Auth0 Login Issues
