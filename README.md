@@ -151,18 +151,6 @@ npm install
 npm run dev
 ```
 
-### Useful Commands
-```bash
-# View logs
-docker-compose -f docker/docker-compose.yaml logs -f
-
-# Restart services
-docker-compose -f docker/docker-compose.yaml restart
-
-# Stop all
-docker-compose -f docker/docker-compose.yaml down
-```
-
 ## Troubleshooting
 
 ### Auth0 Login Issues
@@ -208,41 +196,6 @@ sqlite3 server/src/crudai.db "SELECT * FROM chats LIMIT 5;"
 This project is licensed under the MIT License.
 
 ---
-
-**Built with modern web technologies for secure, local AI-powered chat.**
-
-## ✨ Features
-
-### 🔐 **Authentication & Security**
-- **Auth0 SPA Integration** mit JWT-Token-Validierung
-- **Sichere JWKS-basierte** Token-Verifizierung
-- **Benutzer-spezifische** Chats und Nachrichten
-- **CORS-sichere** Frontend-Backend-Kommunikation
-
-### 🤖 **AI-Integration**  
-- **Ollama-Integration** für lokale KI (llama3.2:3b)
-- **Offline-AI** ohne externe API-Kosten
-- **Konversationskontext** wird beibehalten
-- **Typing-Indikatoren** für bessere UX
-
-### � **Datenpersistenz**
-- **SQLite-Datenbank** mit persistenter Speicherung
-- **Auto-Migrationssichere** Datenbankinitialisierung  
-- **Vollständige CRUD-Operationen** für Chats & Nachrichten
-- **Benutzer-Profil-Management**
-
-### 🎨 **Modern UI/UX**
-- **Responsive Design** mit CSS Grid/Flexbox
-- **Welcome-Screen** mit zentriertem Input
-- **Sidebar** mit Chat-Verwaltung (erstellen, umbenennen, löschen)
-- **Real-time Chat** mit Nachrichten-Historie
-
-### 🐳 **Container-Ready**
-- **Docker Compose** Multi-Container-Setup
-- **Health Checks** für alle Services
-- **Volume-Mapping** für Datenpersistenz
-- **Environment-basierte** Konfiguration
-
 ## 🏗️ Architektur
 
 ```
@@ -410,9 +363,6 @@ Contributions sind willkommen! Bitte:
 4. **Push** zum Branch (`git push origin feature/neue-funktion`)
 5. **Pull Request** öffnen
 
-## 📄 Lizenz
-
-Dieses Projekt ist unter der **MIT Lizenz** veröffentlicht. Siehe `LICENSE` Datei für Details.
 
 ## 🙏 Credits
 
