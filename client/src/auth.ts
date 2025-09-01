@@ -25,10 +25,10 @@ class AuthService {
     try {
       // Get Auth0 configuration from environment variables
       const config: Auth0Config = {
-        domain: 'dev-f7ttgvlvcizan1uj.eu.auth0.com',
-        clientId: 'KwBLDXZ1hRNaLZ34BnFwBR6iGb4fNEzb',
-        audience: 'https://crud-ai-api',
-        redirectUri: 'http://crud-ai-alb-282127751.eu-north-1.elb.amazonaws.com'
+        domain: import.meta.env.VITE_AUTH0_DOMAIN,
+        clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
+        audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+        redirectUri: import.meta.env.VITE_AUTH0_REDIRECT_URI
       };
 
       // Validate configuration

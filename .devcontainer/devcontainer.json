@@ -1,0 +1,26 @@
+{
+  "name": "Onboarding Dev Container",
+  "dockerComposeFile": [
+    "docker-compose.dev.yaml"
+  ],
+  "service": "devcontainer-client",
+  "workspaceFolder": "/workspace",
+  "overrideCommand": false,
+  "postCreateCommand": "chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh && echo 'Setup done :)'",
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-python.python",
+        "GitHub.copilot"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  }
+}

@@ -1,5 +1,18 @@
+version: "3.9"
+
 services:
-  # Backend API Service
+  db:
+    image: postgres:15
+    container_name: crudai_db
+    environment:
+      POSTGRES_USER: crudai
+      POSTGRES_PASSWORD: crudai
+      POSTGRES_DB: crudai
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
   backend:
     build:
       context: ../server/src
@@ -7,39 +20,29 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - AUTH0_DOMAIN=dev-f7ttgvlvcizan1uj.eu.auth0.com
-      - AUTH0_API_AUDIENCE=https://crudai-api
-      - AUTH0_ISSUER=https://dev-f7ttgvlvcizan1uj.eu.auth0.com/
-      - AUTH0_ALGORITHMS=RS256
-      - DATABASE_URL=sqlite:///./crudai.db
-      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      AUTH0_DOMAIN: dev-f7ttgvlvcizan1uj.eu.auth0.com
+      AUTH0_API_AUDIENCE: https://crudai-api
+      AUTH0_ISSUER: https://dev-f7ttgvlvcizan1uj.eu.auth0.com/
+      AUTH0_ALGORITHMS: RS256
+      DATABASE_URL: postgres://crudai:crudai@db:5432/crudai
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
     volumes:
       - ../server/src:/app
-      - ../server/src/crudai.db:/app/crudai.db
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    depends_on:
+      - db
 
-  # Frontend Web Service
   frontend:
     build:
       context: ../client
       dockerfile: ../docker/client.Dockerfile
-      args:
-        - VITE_AUTH0_DOMAIN=dev-f7ttgvlvcizan1uj.eu.auth0.com
-        - VITE_AUTH0_CLIENT_ID=9iOqeGnNm6S1dBCCTYRwXVjIOm1hvmCv
-        - VITE_AUTH0_AUDIENCE=https://crudai-api
-        - VITE_AUTH0_REDIRECT_URI=http://localhost:5173
     ports:
       - "5173:5173"
     environment:
-      - VITE_AUTH0_DOMAIN=dev-f7ttgvlvcizan1uj.eu.auth0.com
-      - VITE_AUTH0_CLIENT_ID=9iOqeGnNm6S1dBCCTYRwXVjIOm1hvmCv
-      - VITE_AUTH0_AUDIENCE=https://crudai-api
-      - VITE_AUTH0_REDIRECT_URI=http://localhost:5173
+      VITE_AUTH0_DOMAIN: dev-f7ttgvlvcizan1uj.eu.auth0.com
+      VITE_AUTH0_CLIENT_ID: 9iOqeGnNm6S1dBCCTYRwXVjIOm1hvmCv
+      VITE_AUTH0_AUDIENCE: https://crudai-api
+      VITE_AUTH0_REDIRECT_URI: http://localhost:5173
     volumes:
       - ../client:/app
       - /app/node_modules
@@ -48,4 +51,4 @@ services:
       - backend
 
 volumes:
-  app_data:
+  db_data:
